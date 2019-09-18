@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import Home from './views/Home/index.vue'
+import Home from './views/Home/index.vue'
 import Login from './views/login/index.vue'
 
 Vue.use(Router)
@@ -9,8 +9,8 @@ export default new Router({
   routes: [
     // 一级路由
     {
-      path: '/',
-      redirect: '/login'
+      path: '/home',
+      component: Home
     }, {
       path: '/login',
       component: Login
