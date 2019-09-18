@@ -5,8 +5,11 @@
 </template>
 
 <script>
+// import LayoutAside from '../../components/Home/layout-aside'
 export default {
-
+  components: {
+    // 'layout-aside': LayoutAside
+  }
 }
 </script>
 

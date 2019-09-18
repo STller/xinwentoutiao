@@ -2,7 +2,7 @@
   <div class="login">
     <el-card class="el-card">
         <img src="../../assets/img/logo_index.png" alt="">
-      <el-form ref="form" :model="loginForm" :rules="loginRules" style="margin-top:20px">
+      <el-form ref="myForm" :model="loginForm" :rules="loginRules" style="margin-top:20px">
         <el-form-item prop="mobile">
           <el-input v-model="loginForm.mobile" placeholder="请输入手机号"></el-input>
         </el-form-item>
@@ -10,11 +10,11 @@
           <el-input v-model="loginForm.code" placeholder="请输入验证码" style="width:240px"></el-input>
           <el-button style="float:right">发送验证码</el-button>
         </el-form-item>
-        <el-form-item>
-          <el-checkbox :checked="false">我已阅读并同意用户协议和条款</el-checkbox>
+        <el-form-item prop="agree">
+          <el-checkbox v-model="loginForm.agree" :checked="false">我已阅读并同意用户协议和条款</el-checkbox>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" style="width:100%">
+          <el-button @click="login" type="primary" style="width:100%">
             登录
           </el-button>
         </el-form-item>
@@ -62,7 +62,28 @@ export default {
   },
   methods: {
     login () {
-      // validator 是一个方法=》方法中传入的一个函数 两个校验参数
+      // 校验整个表单的规则
+      // validate是一个方法 方法中传入的是一个回调函数
+      this.$refs.myForm.validate((isOk) => {
+        if (isOk) {
+          console.log('校验成功')
+          this.$axios({
+            method: 'post',
+            url: '/authorizations',
+            data: this.loginForm
+          }).then(result => {
+            console.log(result)
+            window.localStorage.setItem('user-token', result.data.data.token) // 将后台返回的token令牌存储到前端缓存中
+            this.$router.push('/home') // 跳转地址
+          }).catch(error => {
+            console.log(error.message) // 这里的error是上边new 的Error
+            this.$message({
+              message: '手机号或者验证码错误',
+              type: 'warning' // element-ui 自带类型 warning为警告弹出框
+            })
+          })
+        }
+      })
     }
   }
 }
@@ -72,7 +93,7 @@ export default {
 // scoped 默认让css文件 只对所在的vue起作用
 // 添加lang='less' 就可以用less 写css了
 .login{
-  background-image: url('../../assets/img/cat.jpg');
+  background-image: url('../../assets/img/login_bg.jpg');
   /* vh将屏幕的垂直高度分成100份 */
   width: 100%;
   height: 100vh;
