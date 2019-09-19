@@ -7,6 +7,10 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
+    {
+      path: '/',
+      redirect: '/login'
+    },
     // 一级路由
     {
       path: '/home',
