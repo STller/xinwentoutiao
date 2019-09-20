@@ -49,6 +49,7 @@ export default {
     },
     commonClick (key) { // key是command属性携带回来的
       if (key === 'account') {
+        this.$router.push('/home/account')
       } else if (key === 'git') {
         //   去项目的git地址
         window.location.href('https://github.com/STller/83heimatoutiao')
