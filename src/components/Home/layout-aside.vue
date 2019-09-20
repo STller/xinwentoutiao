@@ -52,15 +52,15 @@ export default {
 <style lang='less' scoped>
 .layout-aside{
   background-color: #323745;
-  width: 200px;
+  // width: 200px;
   height: 100vh;
   .el-menu{
     background-color: #353b4e;
-    border-right: 1px solid #000;
+    border-right: 0px solid #000;
   }
   .title{
     text-align: center;
-    margin-top: 20px;
+    // margin-top: 20px;
   }
 }
 
