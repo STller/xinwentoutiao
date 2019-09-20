@@ -21,13 +21,7 @@
 </template>
 
 <script>
-import LayoutAside from '../../components/Home/layout-aside'
-import LayoutHeader from '../../components/Home/layout-header'
 export default {
-  components: {
-    'layout-aside': LayoutAside,
-    'layout-header': LayoutHeader
-  }
 }
 </script>
 
