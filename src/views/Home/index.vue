@@ -2,7 +2,7 @@
   <!-- 先定义一个大容器 -->
   <el-container>
     <!-- 左边栏 -->
-    <el-aside width="200px">
+    <el-aside class="el-aside" width="200px">
       <layout-aside></layout-aside>
     </el-aside>
     <!-- 右侧大容器 -->
@@ -12,7 +12,7 @@
         <layout-header style="background-color:#ffffff;padding:0 20px"></layout-header>
       </el-header>
       <!-- 主要区域 -->
-      <el-main>
+      <el-main style="padding:0">
         <!-- 二级路由 -->
         <router-view></router-view>
       </el-main>
@@ -26,5 +26,7 @@ export default {
 </script>
 
 <style>
-
+.el-aside{
+  background-color: #323745;
+}
 </style>

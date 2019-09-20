@@ -51,8 +51,7 @@ export default {
 
 <style lang='less' scoped>
 .layout-aside{
-  background-color: #323745;
-  // width: 200px;
+  width: 200px;
   height: 100vh;
   .el-menu{
     background-color: #353b4e;
