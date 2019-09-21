@@ -1,6 +1,7 @@
 <template>
 <!-- 二级路由 挂载一级路由下 -->
   <el-card>
+    <!-- 面包屑 -->
       <bread-crumb slot="">
       </bread-crumb>
       <!-- el-table表格 -->
@@ -17,8 +18,17 @@
 
           <el-table-column label="粉丝评论数" prop="fans_comment_count"></el-table-column>
 
-          <el-table-column label="操作" prop="fans_comment_count"></el-table-column>
+          <el-table-column label="操作" prop="fans_comment_count">
+              <el-button type="text">修改</el-button>
+              <!-- 根据其他列的状态 设置关闭评论 还是打开评论 -->
+              <el-button type="text">关闭评论</el-button>
+          </el-table-column>
       </el-table>
+      <!-- 分页的页面结构 -->
+      <!-- 分多少页 当前第几页 -->
+      <!-- total：接收记录总条数 -->
+      <!-- currentPage：当前页数 -->
+      <!-- pageSize：每页多少条数据 -->
   </el-card>
 </template>
 

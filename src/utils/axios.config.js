@@ -2,8 +2,15 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
 import router from '../permission' // 为什么不能用this.$router 这里的this不是Vue实例
+import jsonBig from 'json-bigint'
 
 axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0'
+axios.defaults.transformResponse = [function (data) {
+  // 处理大数字类型
+  // 超过最大安全数字会报错 导致数据失真
+  // 引入第三方的安全包 换了转化方法
+  return jsonBig.parse(data)
+}]
 // 请求拦截
 axios.interceptors.request.use(function (config) {
 // 对发起的请求做一些业务处理

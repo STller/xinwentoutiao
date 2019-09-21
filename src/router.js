@@ -24,6 +24,10 @@ export default new Router({
         {
           path: '/home/comment',
           component: () => import('./views/comment/index.vue') // 评论页面按需加载
+        },
+        {
+          path: '/home/material',
+          component: () => import('./views/material/index.vue')
         }]
     }, {
       path: '/login',
