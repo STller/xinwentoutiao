@@ -75,13 +75,7 @@ export default {
             console.log(result)
             window.localStorage.setItem('user-token', result.data.data.token) // 将后台返回的token令牌存储到前端缓存中
             this.$router.push('/home') // 跳转地址
-          }).catch(error => {
-            console.log(error.message) // 这里的error是上边new 的Error
-            this.$message({
-              message: '手机号或者验证码错误',
-              type: 'warning' // element-ui 自带类型 warning为警告弹出框
-            })
-          })
+          }) // 这里没写catch 在axios config中已经处理了错误
         }
       })
     }
