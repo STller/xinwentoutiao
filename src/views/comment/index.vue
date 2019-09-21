@@ -2,7 +2,12 @@
 <!-- 二级路由 挂载一级路由下 -->
   <el-card>
     <!-- 面包屑 -->
-      <bread-crumb slot="">
+      <!-- 面包屑 头部 -->
+      <bread-crumb slot="header">
+        <!-- 面包屑 标题 -->
+        <template slot='title'>
+          评论列表
+        </template>
       </bread-crumb>
       <!-- el-table表格 -->
       <el-table :data="list">

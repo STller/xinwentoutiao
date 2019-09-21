@@ -16,6 +16,7 @@ export default new Router({
     {
       path: '/home',
       component: Home,
+      // 二级路由
       children: [
         {
           path: '', // 什么都不写 就是默认二级路由组件
