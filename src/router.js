@@ -18,8 +18,12 @@ export default new Router({
       component: Home,
       children: [
         {
-          path: '',
+          path: '', // 什么都不写 就是默认二级路由组件
           component: Main
+        },
+        {
+          path: '/home/comment',
+          component: () => import('./views/comment/index.vue') // 评论页面按需加载
         }]
     }, {
       path: '/login',
