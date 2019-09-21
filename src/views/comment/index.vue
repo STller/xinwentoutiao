@@ -10,7 +10,8 @@
           <!-- 第一列 -->
           <el-table-column label="标题" prop="title"></el-table-column>
           <!-- 第二列 -->
-          <el-table-column label="评论状态" prop="comment_status"></el-table-column>
+          <!-- 解决评论状态不显示 -->
+          <el-table-column :formatter="formatter" label="评论状态" prop="comment_status"></el-table-column>
 
           <el-table-column label="总评论数" prop="total_comment_count"></el-table-column>
 
@@ -40,6 +41,9 @@ export default {
       }).then((result) => {
         this.list = result.data.data.results
       })
+    },
+    formatter (row, column, cellValue, index) { // 类似过滤器 =》return
+      return cellValue ? '正常' : '关闭'
     }
   },
   created () {
