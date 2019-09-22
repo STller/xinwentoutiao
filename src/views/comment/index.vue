@@ -1,6 +1,8 @@
 <template>
 <!-- 二级路由 挂载一级路由下 -->
-  <el-card>
+<!-- ":" 加在属性上 不要加在指令上 -->
+<!-- 发送请求前显示遮罩 loading -->
+  <el-card v-loading="loading">
     <!-- 面包屑 -->
       <!-- 面包屑 头部 -->
       <bread-crumb slot="header">
@@ -64,7 +66,8 @@ export default {
         total: 0,
         currentPage: 1, // 默认第一页
         pageSize: 10
-      }
+      },
+      loading: false
     }
   },
   methods: {
@@ -77,6 +80,7 @@ export default {
     },
     //   获取评论列表
     getComment () {
+      this.loading = true
       this.$axios({
         url: ('/articles'),
         params: {
@@ -88,6 +92,7 @@ export default {
         // debugger
         this.list = result.data.data.results
         this.page.total = result.data.data.total_count // 将总评论数给page对象的total属性
+        this.loading = false
       })
     },
     formatter (row, column, cellValue, index) { // 类似过滤器 =》return
