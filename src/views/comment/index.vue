@@ -43,9 +43,11 @@
         <!-- currentPage：当前页数 -->
         <!-- pageSize：每页多少条数据 -->
         <el-pagination
-          background
+        :current-page="currentPage"
+          :page-size="page.pageSize"
           layout="prev, pager, next"
-          :total="1000">
+          :total="page.total"
+          @current-change="changePage">
 
         </el-pagination>
       </el-row>
@@ -56,20 +58,36 @@
 export default {
   data () {
     return {
-      list: []
+      list: [],
+      // 分页信息
+      page: {
+        total: 0,
+        currentPage: 1, // 默认第一页
+        pageSize: 10
+      }
     }
   },
   methods: {
+    changePage (newPage) {
+      // 当前页码更改监听事件
+      // newPage是elementUI默认回调的参数
+      this.page.currentPage = newPage // 更新最新的当前页码给currentPage
+      // 然后调用获取评论组件
+      this.getComment()
+    },
     //   获取评论列表
     getComment () {
       this.$axios({
         url: ('/articles'),
-        method: 'get',
         params: {
-          response_type: 'comment'
+          response_type: 'comment',
+          page: this.page.currentPage,
+          per_page: this.page.pageSize
         } // 路径参数 也就是query参数
       }).then((result) => {
+        // debugger
         this.list = result.data.data.results
+        this.page.total = result.data.data.total_count // 将总评论数给page对象的total属性
       })
     },
     formatter (row, column, cellValue, index) { // 类似过滤器 =》return
