@@ -18,6 +18,16 @@
             </div>
           </el-card>
         </div>
+        <el-row type="flex" justify="center">
+          <el-pagination
+            @current-change="currentChange"
+            :current-page="page.currentPage"
+            :page-size="page.pageSize"
+            layout="prev, pager, next"
+            :total="page.total">
+          </el-pagination>
+        </el-row>
+
       </el-tab-pane>
       <el-tab-pane label="收藏素材" name="collect">
         <div class="img-list">
@@ -30,6 +40,14 @@
             </div>
           </el-card>
         </div>
+        <el-row type="flex" justify="center">
+          <el-pagination
+            :current-page="page.currentPage"
+            :page-size="page.pageSize"
+            layout="prev, pager, next"
+            :total="page.total">
+          </el-pagination>
+        </el-row>
       </el-tab-pane>
     </el-tabs>
   </template>
@@ -41,7 +59,12 @@ export default {
   data () {
     return {
       activeName: 'all', // 默认选中 all 标签
-      list: []
+      list: [],
+      page: {
+        total: 0,
+        currentPage: 1,
+        pageSize: 10
+      }
     }
   },
   methods: {
@@ -51,11 +74,19 @@ export default {
         // 反正collect就是返回一个 true 或 false
         // 等于collect相当于找收藏的数据
         // 不等 相当于找全部的数据
-        params: { collect: this.activeName === 'collect' }
+        params: { collect: this.activeName === 'collect',
+          page: this.page.currentPage,
+          per_page: this.pageSize
+        }
       }).then((result) => {
         // debugger
         this.list = result.data.data.results
+        this.page.total = result.data.data.total_count
       })
+    },
+    currentChange (newpage) {
+      this.page.currentPage = newpage
+      this.getMaterial()
     }
   },
   created () {
