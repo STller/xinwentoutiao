@@ -35,11 +35,20 @@
             </template>
           </el-table-column>
       </el-table>
-      <!-- 分页的页面结构 -->
-      <!-- 分多少页 当前第几页 -->
-      <!-- total：接收记录总条数 -->
-      <!-- currentPage：当前页数 -->
-      <!-- pageSize：每页多少条数据 -->
+      <!-- el-row布局组件 -->
+      <el-row type="flex" justify="center" style="margin-top:10px">
+        <!-- 分页的页面结构 -->
+        <!-- 分多少页 当前第几页 -->
+        <!-- total：接收记录总条数 -->
+        <!-- currentPage：当前页数 -->
+        <!-- pageSize：每页多少条数据 -->
+        <el-pagination
+          background
+          layout="prev, pager, next"
+          :total="1000">
+
+        </el-pagination>
+      </el-row>
   </el-card>
 </template>
 
