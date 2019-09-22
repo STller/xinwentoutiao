@@ -24,9 +24,15 @@
           <el-table-column label="粉丝评论数" prop="fans_comment_count"></el-table-column>
 
           <el-table-column label="操作" prop="fans_comment_count">
+            <template slot-scope="obj">
               <el-button type="text">修改</el-button>
               <!-- 根据其他列的状态 设置关闭评论 还是打开评论 -->
-              <el-button type="text">关闭评论</el-button>
+              <el-button :style="{color:obj.row.comment_status?'#409EFF':'#F56C6C'}" @click="closeOrOpen(obj.row)" type="text">
+                {{
+                  obj.row.comment_status?"关闭评论":"打开评论"
+                }}
+              </el-button>
+            </template>
           </el-table-column>
       </el-table>
       <!-- 分页的页面结构 -->
@@ -59,6 +65,16 @@ export default {
     },
     formatter (row, column, cellValue, index) { // 类似过滤器 =》return
       return cellValue ? '正常' : '关闭'
+    },
+    closeOrOpen (row) {
+      this.$axios({
+        url: '/comments/status',
+        method: 'PUT',
+        params: { article_id: row.id.toString() }, // 传回的ID是大数类型 需要转成String类型
+        data: { allow_comment: !row.comment_status }
+      }).then(() => {
+        this.getComment()
+      })
     }
   },
   created () {
