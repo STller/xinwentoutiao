@@ -5,6 +5,9 @@
     <bread-crumb slot="header">
       <template slot="title">素材管理</template>
     </bread-crumb>
+    <el-upload action="" :http-request="uploadImg" class="upload">
+      <el-button type="primary">上传图片</el-button>
+    </el-upload>
     <template>
     <el-tabs v-model="activeName" @tab-click="getMaterial">
       <el-tab-pane label="全部素材" name="all">
@@ -87,6 +90,19 @@ export default {
     currentChange (newpage) {
       this.page.currentPage = newpage
       this.getMaterial()
+    },
+    // 上传图片的方法
+    uploadImg (params) {
+      // debugger
+      const data = new FormData() // 声明新的表单
+      data.append('image', params.file) // 通过设置 debugger 进入断点查看所发送的数据来确认要发送哪些数据
+      this.$axios({
+        url: '/user/images',
+        method: 'post',
+        data: data
+      }).then(() => {
+        this.getMaterial()
+      })
     }
   },
   created () {
@@ -96,6 +112,11 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.upload{
+  position: absolute;
+  right: 20px;
+  top: 120px;
+}
 .img-list{
   display: flex;
   flex-wrap: wrap;
