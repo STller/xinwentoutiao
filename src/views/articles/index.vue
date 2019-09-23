@@ -37,7 +37,7 @@
         ></el-date-picker>
       </el-form-item>
     </el-form>
-    <div style="border-bottom:1px solid #ccc;height:40px;line-height:40px">已为您找到条数据</div>
+    <div style="border-bottom:1px solid #ccc;height:40px;line-height:40px">已为您找到{{page.total}}条数据</div>
     <!-- 初始化一行静态数据 -->
     <div class="article-item" v-for="(item,index) of list" :key="index">
       <!-- 一行数据的左侧 -->
@@ -59,6 +59,18 @@
         <el-tag class="el-icon-delete" type="danger">删除</el-tag>
       </div>
     </div>
+    <!-- 分页组件 -->
+    <el-row type="flex" justify="center">
+      <el-pagination
+        @current-change="changePage"
+        :page-size="page.pageSize"
+        :current-page="page.currentPage"
+        style="margin-top:10px"
+        background
+        layout="prev,pager,next"
+        :total="page.total"
+      ></el-pagination>
+    </el-row>
   </el-card>
 </template>
 
@@ -111,6 +123,11 @@ export default {
         status: 5,
         channel_id: null,
         data: []
+      },
+      page: {
+        total: 0,
+        currentPage: 1,
+        pageSize: 10
       }
     }
   },
@@ -123,7 +140,7 @@ export default {
         params
       }).then(result => {
         this.list = result.data.data.results
-        // debugger
+        this.page.total = result.data.data.total_count // 将获取的总页数赋予page·total
       })
     },
     // 获取频道列表
@@ -145,20 +162,28 @@ export default {
         })
       })
     },
+    changePage (newPage) {
+      // 分页时要携带条件
+      this.page.currentPage = newPage
+      this.queryArticles()
+    },
     changeCondition () {
       //   debugger
       // 状态变化事件监听 el-form一改变就触发 值改变时去搜索
       //   this.formData.data(!!!!!!!!是data不是date！！！！！！！！)
-      let beginDate = this.formData.data.length ? this.formData.data[0] : null
-      let endDate =
-        this.formData.data.length > 1 ? this.formData.data[1] : null
+      this.page.currentPage = 1
+      this.queryArticles()
+    },
+    queryArticles () {
       let params = {
         status: this.formData.status === 5 ? null : this.formData.status,
         channel_id: this.formData.channel_id,
-        begin_pubdate: beginDate,
-        end_pubdate: endDate
+        begin_pubdate: this.formData.data.length ? this.formData.data[0] : null,
+        end_pubdate:
+          this.formData.data.length > 1 ? this.formData.data[1] : null,
+        page: this.page.currentPage,
+        per_page: this.page.pageSize
       }
-      // 获取文章列表
       this.getArticles(params)
     }
   },
