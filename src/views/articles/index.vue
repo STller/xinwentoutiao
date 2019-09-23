@@ -36,20 +36,21 @@
     </el-form>
     <div style="border-bottom:1px solid #ccc;height:40px;line-height:40px">已为您找到条数据</div>
     <!-- 初始化一行静态数据 -->
-    <div class="article-item"  v-for="(item,index) of list" :key="index">
+    <div class="article-item" v-for="(item,index) of list" :key="index">
       <!-- 一行数据的左侧 -->
       <div class="left">
-          <img src="../../assets/img/404.png" alt="">
-          <div class="info">
-              <span>十一放假</span>
-              <el-tag style="width:80px;text-align:center">已发表</el-tag>
-              <span>2019-10-01</span>
-          </div>
+        <!-- 动态属性加  ':'  -->
+        <img :src="item.cover.images.length?item.cover.images[0]:defaultImg" alt />
+        <div class="info">
+          <span>{{item.title}}</span>
+          <el-tag :type="item.status | statusType" style="width:80px;text-align:center">{{item.status | statusText}}</el-tag>
+          <span>{{item.pubdate}}</span>
+        </div>
       </div>
       <!-- 一行数据的右侧 -->
       <div class="right">
-          <el-tag class="el-icon-edit" type="info" style="margin-right:10px">修改</el-tag>
-          <el-tag class="el-icon-delete" type="danger">删除</el-tag>
+        <el-tag class="el-icon-edit" type="info" style="margin-right:10px">修改</el-tag>
+        <el-tag class="el-icon-delete" type="danger">删除</el-tag>
       </div>
     </div>
   </el-card>
@@ -57,13 +58,47 @@
 
 <script>
 export default {
+  filters: {
+    //   定义一个过滤器处理显示文章状态
+    // 第一个参数永远是前面传过来的值
+    statusText (value) {
+      switch (value) {
+        case 0:
+          return '草稿'
+        case 1:
+          return '待审核'
+        case 2:
+          return '已发表'
+        case 3:
+          return '审核失败'
+        case 4:
+          return '已删除'
+      }
+    },
+    // 处理状态的颜色显示样式
+    statusType (value) {
+      switch (value) {
+        case 0:
+          return 'warning'
+        case 1:
+          return 'info'
+        case 2:
+          return 'success'
+        case 3:
+          return 'danger'
+        case 4:
+          return 'danger'
+      }
+    }
+  },
   data () {
     return {
       select: '',
       radio: 0,
-      list: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+      list: [],
       channels: [], // 定义一个频道数组
-      value1: ''
+      value1: '',
+      defaultImg: require('../../assets/img/404.png')
     }
   },
   methods: {
@@ -74,6 +109,7 @@ export default {
         method: 'get'
       }).then(result => {
         this.list = result.data.data.results
+        // debugger
       })
     },
     // 获取频道列表
@@ -95,33 +131,36 @@ export default {
         })
       })
     }
+  },
+  created () {
+    this.getArticles()
   }
 }
 </script>
 
 <style lang='less' scoped>
-    .article-item {
-        display: flex;
-        justify-content: space-between;
-        padding: 20px;
-        border-bottom: 1px slolid #f2f3f4;
-        .left{
-            display: flex;
-            .info{
-                display: flex;
-                flex-direction: column;
-                margin-left: 10px;
-                justify-content: space-around;
-            }
-            img{
-                width: 180px;
-                height: 100px;
-                border-radius: 10px;
-            }
-        }
-        .right{
-            display: flex;
-            align-items: center;
-        }
+.article-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  border-bottom: 1px slolid #f2f3f4;
+  .left {
+    display: flex;
+    .info {
+      display: flex;
+      flex-direction: column;
+      margin-left: 10px;
+      justify-content: space-around;
     }
+    img {
+      width: 180px;
+      height: 100px;
+      border-radius: 10px;
+    }
+  }
+  .right {
+    display: flex;
+    align-items: center;
+  }
+}
 </style>
