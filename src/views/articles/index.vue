@@ -5,22 +5,22 @@
       <template slot="title">内容列表</template>
     </bread-crumb>
     <!-- 表单 -->
-    {{radio}} {{select}} {{value1}}
+    {{formData.status}}
     <el-form style="margin-left:50px">
       <el-form-item label="文章状态:">
         <!-- 绑定的值radio接收 el-radio 传进来的值 -->
-        <el-radio-group v-model="radio">
-          <el-radio :label="1">全部</el-radio>
-          <el-radio :label="2">草稿</el-radio>
-          <el-radio :label="3">待审核</el-radio>
-          <el-radio :label="4">审核通过</el-radio>
-          <el-radio :label="5">审核失败</el-radio>
+        <el-radio-group v-model="formData.status">
+          <el-radio :label="5">全部</el-radio>
+          <el-radio :label="0">草稿</el-radio>
+          <el-radio :label="1">待审核</el-radio>
+          <el-radio :label="2">审核通过</el-radio>
+          <el-radio :label="3">审核失败</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="频道列表:">
-        <el-select v-model="select">
+        <el-select v-model="formData.channel_id">
           <!-- 显示值是abc 返回的值是123 -->
-          <el-option value="123" label="abc"></el-option>
+          <el-option v-for="item of channels" :value="item.id" :label="item.name" :key="item.id"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="时间选择:">
@@ -76,6 +76,7 @@ export default {
       }
     },
     // 处理状态的颜色显示样式
+    // value 永远是前面参数传过来的值 处理了之后再传给后边的过滤器
     statusType (value) {
       switch (value) {
         case 0:
@@ -94,11 +95,15 @@ export default {
   data () {
     return {
       select: '',
-      radio: 0,
+      radio: 0, // 文章状态
       list: [],
       channels: [], // 定义一个频道数组
       value1: '',
-      defaultImg: require('../../assets/img/404.png')
+      defaultImg: require('../../assets/img/404.png'),
+      formData: {
+        status: 5,
+        channel_id: null
+      }
     }
   },
   methods: {
@@ -134,6 +139,7 @@ export default {
   },
   created () {
     this.getArticles()
+    this.getChannels()
   }
 }
 </script>
