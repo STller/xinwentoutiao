@@ -5,11 +5,11 @@
       <template slot="title">内容列表</template>
     </bread-crumb>
     <!-- 表单 -->
-    {{formData.status}}
+    {{formData.data}}
     <el-form style="margin-left:50px">
       <el-form-item label="文章状态:">
         <!-- 绑定的值radio接收 el-radio 传进来的值 -->
-        <el-radio-group v-model="formData.status">
+        <el-radio-group @change="changeCondition" v-model="formData.status">
           <el-radio :label="5">全部</el-radio>
           <el-radio :label="0">草稿</el-radio>
           <el-radio :label="1">待审核</el-radio>
@@ -18,7 +18,8 @@
         </el-radio-group>
       </el-form-item>
       <el-form-item label="频道列表:">
-        <el-select v-model="formData.channel_id">
+        <!-- formData的值已经改变了 el-select可直接调用同一个changecondition方法 -->
+        <el-select @change="changeCondition" v-model="formData.channel_id">
           <!-- 显示值是abc 返回的值是123 -->
           <el-option v-for="item of channels" :value="item.id" :label="item.name" :key="item.id"></el-option>
         </el-select>
@@ -27,7 +28,9 @@
         <!-- 时间段 ele组件 -->
         <!-- v-model value1是时间段数组 -->
         <el-date-picker
-          v-model="value1"
+          @change="changeCondition"
+          value-format="yyyy-MM-dd"
+          v-model="formData.data"
           type="daterange"
           start-placeholder="开始日期"
           end-placeholder="结束日期"
@@ -43,7 +46,10 @@
         <img :src="item.cover.images.length?item.cover.images[0]:defaultImg" alt />
         <div class="info">
           <span>{{item.title}}</span>
-          <el-tag :type="item.status | statusType" style="width:80px;text-align:center">{{item.status | statusText}}</el-tag>
+          <el-tag
+            :type="item.status | statusType"
+            style="width:80px;text-align:center"
+          >{{item.status | statusText}}</el-tag>
           <span>{{item.pubdate}}</span>
         </div>
       </div>
@@ -101,17 +107,20 @@ export default {
       value1: '',
       defaultImg: require('../../assets/img/404.png'),
       formData: {
+        // 文章状态查询数组
         status: 5,
-        channel_id: null
+        channel_id: null,
+        data: []
       }
     }
   },
   methods: {
     //   获取文章列表
-    getArticles () {
+    getArticles (params) {
       this.$axios({
         url: '/articles',
-        method: 'get'
+        method: 'get',
+        params
       }).then(result => {
         this.list = result.data.data.results
         // debugger
@@ -135,6 +144,20 @@ export default {
           // 重新查询
         })
       })
+    },
+    changeCondition () {
+      // 状态变化事件监听 el-form一改变就触发 值改变时去搜索
+      let beginDate = this.formData.date.length ? this.formData.date[0] : null
+      let endDate =
+        this.formData.date.length > 1 ? this.formData.date[1] : null
+      let params = {
+        status: this.formData.status === 5 ? null : this.formData.status,
+        channel_id: this.formData.channel_id,
+        begin_pubdate: beginDate,
+        end_pubdate: endDate
+      }
+      // 获取文章列表
+      this.getArticles(params)
     }
   },
   created () {
