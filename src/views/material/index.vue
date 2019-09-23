@@ -16,9 +16,9 @@
             <!-- src前面一定要加 ":" -->
             <img :src="item.url">
             <div class="operate">
-              <!-- 收藏功能 -->
-              <i :style="{color:item.is_collected?'red':''}" class="el-icon-star-on"></i>
-              <!-- 删除功能 -->
+              <!-- 收藏或者取消收藏功能 -->
+              <i @click="collectOrCancel(item)" :style="{color:item.is_collected?'red':''}" class="el-icon-star-on"></i>
+              <!-- 删除图片功能 -->
               <i @click="deleteImg(item.id)" class="el-icon-delete-solid"></i>
             </div>
           </el-card>
@@ -40,8 +40,8 @@
             <!-- src前面一定要加 ":" -->
             <img :src="item.url">
             <div class="operate">
-              <i :style="{color:item.is_collected?'red':''}" class="el-icon-star-on"></i>
-              <i class="el-icon-delete-solid"></i>
+              <i @click="collectOrCancel(item)" :style="{color:item.is_collected?'red':''}" class="el-icon-star-on"></i>
+              <i @click="deleteImg(item.id)" class="el-icon-delete-solid"></i>
             </div>
           </el-card>
         </div>
@@ -117,6 +117,16 @@ export default {
         }).then(() => {
           this.getMaterial()
         })
+      })
+    },
+    // 收藏按钮
+    collectOrCancel (item) {
+      this.$axios({
+        url: `/user/images/${item.id}`,
+        method: 'put',
+        data: { collect: !item.is_collected }
+      }).then(() => {
+        this.getMaterial()
       })
     }
   },
