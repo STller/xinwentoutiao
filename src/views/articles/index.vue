@@ -34,9 +34,9 @@
         ></el-date-picker>
       </el-form-item>
     </el-form>
-    <div>已为您找到条数据</div>
+    <div style="border-bottom:1px solid #ccc;height:40px;line-height:40px">已为您找到条数据</div>
     <!-- 初始化一行静态数据 -->
-    <div class="article-item">
+    <div class="article-item"  v-for="(item,index) of list" :key="index">
       <!-- 一行数据的左侧 -->
       <div class="left">
           <img src="../../assets/img/404.png" alt="">
@@ -61,7 +61,7 @@ export default {
     return {
       select: '',
       radio: 0,
-      list: [],
+      list: [1, 2, 3, 4, 5, 6, 7, 8, 9],
       channels: [], // 定义一个频道数组
       value1: ''
     }
