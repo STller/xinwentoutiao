@@ -16,8 +16,10 @@
             <!-- src前面一定要加 ":" -->
             <img :src="item.url">
             <div class="operate">
+              <!-- 收藏功能 -->
               <i :style="{color:item.is_collected?'red':''}" class="el-icon-star-on"></i>
-              <i class="el-icon-delete-solid"></i>
+              <!-- 删除功能 -->
+              <i @click="deleteImg(item.id)" class="el-icon-delete-solid"></i>
             </div>
           </el-card>
         </div>
@@ -102,6 +104,19 @@ export default {
         data: data
       }).then(() => {
         this.getMaterial()
+      })
+    },
+    // 删除图片
+    deleteImg (id) {
+      // 删除前提问
+      this.$confirm('删除图片？').then(() => {
+        // 调接口删除图片
+        this.$axios({
+          url: `/user/images/${id}`, // :target 路由中:表示该参数是动态的，活动的值
+          method: 'delete'
+        }).then(() => {
+          this.getMaterial()
+        })
       })
     }
   },

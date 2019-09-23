@@ -9,7 +9,8 @@ axios.defaults.transformResponse = [function (data) {
   // 处理大数字类型
   // 超过最大安全数字会报错 导致数据失真
   // 引入第三方的安全包 换了转化方法
-  return jsonBigInit.parse(data)
+  return data ? jsonBigInit.parse(data) : ''
+  // 如果data存在则转化 否则不转化
 }]
 // 请求拦截
 axios.interceptors.request.use(function (config) {
