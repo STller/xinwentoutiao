@@ -19,6 +19,7 @@
               <!-- 收藏或者取消收藏功能 -->
               <i @click="collectOrCancel(item)" :style="{color:item.is_collected?'red':''}" class="el-icon-star-on"></i>
               <!-- 删除图片功能 -->
+              <!-- 该i是for循环出来的 item.id 是item的参数 -->
               <i @click="deleteImg(item.id)" class="el-icon-delete-solid"></i>
             </div>
           </el-card>
