@@ -146,10 +146,12 @@ export default {
       })
     },
     changeCondition () {
+      //   debugger
       // 状态变化事件监听 el-form一改变就触发 值改变时去搜索
-      let beginDate = this.formData.date.length ? this.formData.date[0] : null
+      //   this.formData.data(!!!!!!!!是data不是date！！！！！！！！)
+      let beginDate = this.formData.data.length ? this.formData.data[0] : null
       let endDate =
-        this.formData.date.length > 1 ? this.formData.date[1] : null
+        this.formData.data.length > 1 ? this.formData.data[1] : null
       let params = {
         status: this.formData.status === 5 ? null : this.formData.status,
         channel_id: this.formData.channel_id,
