@@ -94,10 +94,10 @@ export default {
       this.getMaterial()
     },
     // 上传图片的方法
-    uploadImg (params) {
+    uploadImg (date) { // 这里的date是自定义的 返回值的名字随意取
       // debugger
       const data = new FormData() // 声明新的表单
-      data.append('image', params.file) // 通过设置 debugger 进入断点查看所发送的数据来确认要发送哪些数据
+      data.append('image', date.file) // 通过设置 debugger 进入断点查看所发送的数据来确认要发送哪些数据
       this.$axios({
         url: '/user/images',
         method: 'post',

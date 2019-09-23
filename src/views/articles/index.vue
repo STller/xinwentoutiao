@@ -19,7 +19,8 @@
 export default {
   data () {
     return {
-      list: []
+      list: [],
+      channels: [] // 定义一个频道数组
     }
   },
   methods: {
@@ -30,6 +31,26 @@ export default {
         method: 'get'
       }).then((result) => {
         this.list = result.data.data.results
+      })
+    },
+    // 获取频道列表
+    getChannels () {
+      this.$axios({
+        url: '/channels'
+      }).then((result) => {
+        this.channels = result.data.data.channels
+      })
+    },
+    // 文章查询
+    deleteArticles (id) {
+      this.$confirm('确定？').then(() => {
+        this.$axios({
+          url: `/articles/${id.toString()}`, // id 为大数类型 要想正常使用 要转成字符串类型
+          method: 'delete'
+        }).then(() => {
+          // 重新查询
+
+        })
       })
     }
   }
