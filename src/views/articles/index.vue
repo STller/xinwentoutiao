@@ -5,7 +5,7 @@
       <template slot="title">内容列表</template>
     </bread-crumb>
     <!-- 表单 -->
-    {{radio}}   {{select}}  {{value1}}
+    {{radio}} {{select}} {{value1}}
     <el-form style="margin-left:50px">
       <el-form-item label="文章状态:">
         <!-- 绑定的值radio接收 el-radio 传进来的值 -->
@@ -34,6 +34,24 @@
         ></el-date-picker>
       </el-form-item>
     </el-form>
+    <div>已为您找到条数据</div>
+    <!-- 初始化一行静态数据 -->
+    <div class="article-item">
+      <!-- 一行数据的左侧 -->
+      <div class="left">
+          <img src="../../assets/img/404.png" alt="">
+          <div class="info">
+              <span>十一放假</span>
+              <el-tag style="width:80px;text-align:center">已发表</el-tag>
+              <span>2019-10-01</span>
+          </div>
+      </div>
+      <!-- 一行数据的右侧 -->
+      <div class="right">
+          <el-tag class="el-icon-edit" type="info" style="margin-right:10px">修改</el-tag>
+          <el-tag class="el-icon-delete" type="danger">删除</el-tag>
+      </div>
+    </div>
   </el-card>
 </template>
 
@@ -81,5 +99,29 @@ export default {
 }
 </script>
 
-<style>
+<style lang='less' scoped>
+    .article-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 20px;
+        border-bottom: 1px slolid #f2f3f4;
+        .left{
+            display: flex;
+            .info{
+                display: flex;
+                flex-direction: column;
+                margin-left: 10px;
+                justify-content: space-around;
+            }
+            img{
+                width: 180px;
+                height: 100px;
+                border-radius: 10px;
+            }
+        }
+        .right{
+            display: flex;
+            align-items: center;
+        }
+    }
 </style>
