@@ -55,8 +55,8 @@
       </div>
       <!-- 一行数据的右侧 -->
       <div class="right">
-        <el-tag class="el-icon-edit" type="info" style="margin-right:10px">修改</el-tag>
-        <el-tag class="el-icon-delete" type="danger">删除</el-tag>
+        <el-tag class="el-icon-edit" type="info" style="margin-right:10px;cursor:pointer">修改</el-tag>
+        <el-tag style="cursor:pointer" @click="item.id" class="el-icon-delete" type="danger">删除</el-tag>
       </div>
     </div>
     <!-- 分页组件 -->
@@ -151,7 +151,7 @@ export default {
         this.channels = result.data.data.channels
       })
     },
-    // 文章查询
+    // 文章删除
     deleteArticles (id) {
       this.$confirm('确定？').then(() => {
         this.$axios({
@@ -159,6 +159,7 @@ export default {
           method: 'delete'
         }).then(() => {
           // 重新查询
+          this.queryArticles()
         })
       })
     },
