@@ -12,17 +12,28 @@
       </div>
       <el-row type="flex" justify="center">
         <el-pagination
-            background
-            layout="prev,pager,next"
-            :total="page.total"
-            :current-page="page.currentPage"
-            :page-size="page.pageSize"
-            @current-change='changePage'>
-
-        </el-pagination>
+          background
+          layout="prev,pager,next"
+          :total="page.total"
+          :current-page="page.currentPage"
+          :page-size="page.pageSize"
+          @current-change="changePage"
+        ></el-pagination>
       </el-row>
     </el-tab-pane>
-    <el-tab-pane label="上传图片"></el-tab-pane>
+    <el-tab-pane label="上传图片">
+      <el-upload
+        class="avatar-uploader"
+        action=""
+        :http-request="uploadImg"
+        :show-file-list="false"
+        :on-success="handleAvatarSuccess"
+        :before-upload="beforeAvatarUpload">
+
+        <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+      </el-upload>
+    </el-tab-pane>
   </el-tabs>
 </template>
 
@@ -41,6 +52,18 @@ export default {
     }
   },
   methods: {
+    // 上传用户素材
+    uploadImg (params) {
+      let data = new FormData()
+      data.append('image', params.file)
+      this.$axios({
+        url: '/user/images',
+        method: 'post',
+        data
+      }).then((result) => {
+        this.$emit('selectOneImg', result.data.data.url)
+      })
+    },
     // 点击素材图片时传过来item
     // 子组件给父组件传值
     // $emit 自定义事件
@@ -56,7 +79,11 @@ export default {
     getAllImg () {
       this.$axios({
         url: 'user/images',
-        params: { collect: false, page: this.page.currentPage, per_page: this.page.pageSize }
+        params: {
+          collect: false,
+          page: this.page.currentPage,
+          per_page: this.page.pageSize
+        }
       }).then(result => {
         this.list = result.data.data.results
         // debugger
@@ -81,4 +108,12 @@ export default {
     // margin: 20px;
   }
 }
+.avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
 </style>
