@@ -55,8 +55,10 @@
       </div>
       <!-- 一行数据的右侧 -->
       <div class="right">
-        <el-tag class="el-icon-edit" type="info" style="margin-right:10px;cursor:pointer">修改</el-tag>
-        <el-tag style="cursor:pointer" @click="item.id" class="el-icon-delete" type="danger">删除</el-tag>
+        <!-- 修改文章 -->
+        <el-tag @click="goEdit(item.id)" class="el-icon-edit" type="info" style="margin-right:10px;cursor:pointer">修改</el-tag>
+        <!-- 删除文章 -->
+        <el-tag style="cursor:pointer" @click="deleteArticles(item.id)" class="el-icon-delete" type="danger">删除</el-tag>
       </div>
     </div>
     <!-- 分页组件 -->
@@ -132,7 +134,12 @@ export default {
     }
   },
   methods: {
-    //   获取文章列表
+    // 编辑文章
+    goEdit (id) {
+      // id是bignumber类型
+      this.$router.push(`/home/publish/${id.toString()}`)
+    },
+    // 获取文章列表
     getArticles (params) {
       this.$axios({
         url: '/articles',

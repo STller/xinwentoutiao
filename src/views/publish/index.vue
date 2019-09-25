@@ -22,10 +22,10 @@
       <!-- 封面部分 -->
       <el-form-item prop="cover" label="封面">
         <el-radio-group v-model="formData.cover.type">
-          <el-radio :label=1>单选</el-radio>
-          <el-radio :label=3>三图</el-radio>
-          <el-radio :label=0>无图</el-radio>
-          <el-radio :label=-1>自动</el-radio>
+          <el-radio :label="1">单选</el-radio>
+          <el-radio :label="3">三图</el-radio>
+          <el-radio :label="0">无图</el-radio>
+          <el-radio :label="-1">自动</el-radio>
         </el-radio-group>
       </el-form-item>
       <!-- 频道部分 -->
@@ -82,7 +82,7 @@ export default {
     },
     // 发布文章 validate
     publish (status) {
-      this.$refs.publishForm.validate((isOk) => {
+      this.$refs.publishForm.validate(isOk => {
         if (isOk) {
           this.$axios({
             url: '/articles',
@@ -95,10 +95,24 @@ export default {
           })
         }
       })
+    },
+    getArticleById (id) {
+      this.$axios({
+        url: `/articles/${id}`
+      }).then(results => {
+        // 通过debugger查看返回的数据格式来获取值！！！！！！！！！！！！！
+        this.formData = results.data.data
+      })
     }
   },
   created () {
     this.getChannels()
+    // 获取文章的ID 解构赋值
+    // 有就是编辑文章 没有 就是新增文章
+    let { articleId } = this.$route.params
+
+    // 如果articleId存在 则执行后边的逻辑
+    articleId && this.getArticleById(articleId)
   }
 }
 </script>

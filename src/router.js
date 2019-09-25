@@ -35,6 +35,11 @@ export default new Router({
           component: () => import('./views/articles/index.vue')
         },
         {
+          path: '/home/publish/:articleId',
+          component: () => import('./views/publish/index.vue')
+        },
+        {
+          // 由于/home/publish不能匹配带参数的 所以再写一个
           path: '/home/publish',
           component: () => import('./views/publish/index.vue')
         }

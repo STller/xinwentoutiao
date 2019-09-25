@@ -42,7 +42,6 @@ export default {
         url: '/user/profile'
       }).then(result => {
         this.userInfo = result.data.data // 接收数据对象
-        console.log(this.userInfo)
       })
     },
     commonClick (key) { // key是command属性携带回来的

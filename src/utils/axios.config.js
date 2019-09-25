@@ -31,7 +31,7 @@ axios.interceptors.response.use(function (response) {
 }, function (error) {
   // 执行失败时执行
   // debugger
-  let status = error.response.status // 获取失败的状态码
+  let status = error.response.status ? error.response.status : ''// 获取失败的状态码
   let message = '未知错误'
   switch (status) {
     case 400:
