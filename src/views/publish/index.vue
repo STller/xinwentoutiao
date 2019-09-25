@@ -82,18 +82,17 @@ export default {
     },
     // 发布文章 validate
     publish (status) {
+      // 发布文章时候判断是修改还是新增 条件就是有没有articleID
       this.$refs.publishForm.validate(isOk => {
-        if (isOk) {
-          this.$axios({
-            url: '/articles',
-            method: 'post',
-            params: { draft: status }, // 为true时是草稿
-            data: this.formData
-          }).then(() => {
-            // 发布成功去内容列表
-            this.$router.push('/home/articles')
-          })
-        }
+        let { articleId } = this.$route.params
+        this.$axios({
+          params: { status },
+          data: this.formData,
+          url: articleId ? `/articles/${articleId}` : '/articles',
+          method: articleId ? 'put' : 'post' // articleId存在就是修改文章 不存在就是发布新文章
+        }).then(() => {
+          this.$router.push('/home/articles')
+        })
       })
     },
     getArticleById (id) {
