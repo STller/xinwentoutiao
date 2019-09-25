@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import eventBus from '../../utils/eventBus'
 export default {
   data () {
     return {
@@ -59,6 +60,10 @@ export default {
   // 钩子函数
   created () {
     this.getUserInfo()
+    // 监听到🚌传来的这个事件会执行后边的回调函数
+    eventBus.$on('updataUserInfo', () => {
+      this.getUserInfo()
+    })
   }
 }
 </script>

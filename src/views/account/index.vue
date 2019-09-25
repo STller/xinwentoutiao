@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import eventBus from '../../utils/eventBus'
 export default {
   data () {
     return {
@@ -60,6 +61,7 @@ export default {
       }).then((results) => {
         // 将成功上传的头像更新给页面数据
         this.formData.photo = results.data.data.photo
+        eventBus.$emit('updataUserInfo') // 抛出一个事件
       })
     },
     // 保存用户个人信息
@@ -74,6 +76,8 @@ export default {
           }).then(() => {
             // 若成功 提示消息
             this.$message({ message: '保存成功', type: 'success' })
+            // 提示别的组件 要更新数据
+            eventBus.$emit('updataUserInfo') // 抛出一个事件
           })
         }
       })
