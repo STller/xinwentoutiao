@@ -8,7 +8,7 @@
       :rules="publishRules"
       :model="formData"
       label-width="100px"
-      style="margin-left:100px"
+      style="margin-left:0px"
     >
       <!-- 表单 -->
       <!-- 标题部分 -->
@@ -17,16 +17,27 @@
       </el-form-item>
       <!-- 内容部分 -->
       <el-form-item prop="content" label="内容">
-        <quill-editor style="height:200px" v-model="formData.content" placeholder="请输入内容" :rows="5" type="textarea"></quill-editor>
+        <quill-editor
+          style="height:200px"
+          v-model="formData.content"
+          placeholder="请输入内容"
+          :rows="5"
+          type="textarea"
+        ></quill-editor>
       </el-form-item>
       <!-- 封面部分 -->
       <el-form-item style="margin-top:100px" prop="cover" label="封面">
-        <el-radio-group v-model="formData.cover.type">
+        <el-radio-group @change="changeType" v-model="formData.cover.type">
           <el-radio :label="1">单选</el-radio>
           <el-radio :label="3">三图</el-radio>
           <el-radio :label="0">无图</el-radio>
           <el-radio :label="-1">自动</el-radio>
         </el-radio-group>
+        <!-- 封面组件 -->
+        <!-- 子组件cover-img获取父组件的值 -->
+        <!-- 给谁传就在谁标签上写属性 -->
+        <!-- 传递父组件的images到子组件 -->
+        <cover-img :images='formData.cover.images'></cover-img>
       </el-form-item>
       <!-- 频道部分 -->
       <el-form-item prop="channel_id" label="频道">
@@ -72,6 +83,21 @@ export default {
     }
   },
   methods: {
+    // radio类型改变事件
+    changeType () {
+    //   alert(this.formData.cover.type) // 显示当前radio-type选项
+      if (this.formData.cover.type === 1) {
+        // 当type为1 图片数组有一个
+        // image地址不能是本地的图片
+        this.formData.cover.images = ['http://toutiao.meiduo.site/FmavYB5dTWpnf3X8Uo5eBdK7BRMW']
+      } else if (this.formData.cover.type === 3) {
+        // 当type为3 图片数组有三个
+        this.formData.cover.images = ['', '', '']
+      } else {
+        //   否则图拼啊数组没有值
+        this.formData.cover.images = []
+      }
+    },
     getChannels () {
       this.$axios({
         url: '/channels'

@@ -7,6 +7,7 @@ import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
 import { quillEditor } from 'vue-quill-editor'
+import coverImg from './publish/cover-img.vue'
 export default {
   install: function (Vue) {
     // 调用install方法 传入Vue对象
@@ -15,5 +16,6 @@ export default {
     Vue.component('layout-header', layoutHeader)
     Vue.component('bread-crumb', breadCrumb)
     Vue.component('quill-editor', quillEditor)
+    Vue.component('cover-img', coverImg)
   }
 }
