@@ -33,7 +33,12 @@ export default new Router({
         {
           path: '/home/articles',
           component: () => import('./views/articles/index.vue')
-        }]
+        },
+        {
+          path: '/home/publish',
+          component: () => import('./views/publish/index.vue')
+        }
+      ]
     }, {
       path: '/login',
       component: Login
