@@ -28,7 +28,9 @@
         <el-button @click="saveUser" type="primary">保存信息</el-button>
       </el-form-item>
     </el-form>
-    <img class="head-img" :src="formData.photo?formData.photo:''" alt />
+    <el-upload :http-request="uploadImg" action :show-file-list="false">
+      <img class="head-img" :src="formData.photo?formData.photo:''" alt />
+    </el-upload>
   </el-card>
 </template>
 
@@ -48,9 +50,21 @@ export default {
     }
   },
   methods: {
+    uploadImg (params) {
+      let data = new FormData()
+      data.append('photo', params.file)
+      this.$axios({
+        url: '/user/photo',
+        method: 'patch',
+        data
+      }).then((results) => {
+        // 将成功上传的头像更新给页面数据
+        this.formData.photo = results.data.data.photo
+      })
+    },
     // 保存用户个人信息
     saveUser () {
-      this.$refs.accountForm.validate((isOk) => {
+      this.$refs.accountForm.validate(isOk => {
         if (isOk) {
           // 调用修改资料接口
           this.$axios({
