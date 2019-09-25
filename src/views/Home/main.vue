@@ -10,7 +10,7 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .back{
     background-image: url("../../assets/img/404.png");
     background-size: cover;

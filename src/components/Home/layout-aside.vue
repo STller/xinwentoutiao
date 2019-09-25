@@ -1,10 +1,10 @@
 <template>
   <div class="layout-aside">
     <div class="title">
-      <img src="../../assets/img/logo_admin.png">
+      <img src="../../assets/img/logo_admin.png" />
     </div>
-<!-- router为true 启动路由功能 -->
-    <el-menu :router="true" active-text-color="#ffd04b" text-color="#adafb5" class="el-menu">
+    <!-- router为true 启动路由功能 -->
+    <el-menu :collapse-transition="false" :router="true" background-color="#353b4e" active-text-color="#ffffff" text-color="#adafb5" class="el-menu">
       <!-- 不带下拉列表 -->
       <el-menu-item index="/home">
         <i class="el-icon-s-home"></i>
@@ -36,31 +36,27 @@
       </el-submenu>
       <el-menu-item index="/home/account">
         <i class="el-icon-s-tools"></i>
-        <span slot="title" >账户信息</span>
+        <span slot="title">账户信息</span>
       </el-menu-item>
     </el-menu>
-
   </div>
 </template>
 
 <script>
-export default {
-
-}
+export default {}
 </script>
 
 <style lang='less' scoped>
-.layout-aside{
+.layout-aside {
+  background-color: #353b4e;
   width: 200px;
   height: 100vh;
-  .el-menu{
-    background-color: #353b4e;
+  .el-menu {
     border-right: 0px solid #000;
   }
-  .title{
+  .title {
     text-align: center;
-    // margin-top: 20px;
+    background-color: #353b4e;
   }
 }
-
 </style>

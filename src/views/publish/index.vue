@@ -1,5 +1,5 @@
 <template>
-  <el-card>
+  <el-card v-loading='loading'>
     <bread-crumb slot="header">
       <template slot="title">发布文章</template>
     </bread-crumb>
@@ -37,7 +37,10 @@
         <!-- 子组件cover-img获取父组件的值 -->
         <!-- 给谁传就在谁标签上写属性 -->
         <!-- 传递父组件的images到子组件 -->
-        <cover-img :images='formData.cover.images'></cover-img>
+
+        <!-- 这里子组件传来了图片的地址数据 接收它！！！！ -->
+        <cover-img @selectImg='changImg' :images='formData.cover.images'></cover-img>
+
       </el-form-item>
       <!-- 频道部分 -->
       <el-form-item prop="channel_id" label="频道">
@@ -58,6 +61,7 @@
 export default {
   data () {
     return {
+      loading: false,
       channels: [],
       // 表单数据对象
       formData: {
@@ -83,6 +87,13 @@ export default {
     }
   },
   methods: {
+    changImg (url, index) {
+      // 接收从子组件传来的值
+      // 数据经历了两层传递 更改 images 的数据
+      this.formData.cover.images = this.formData.cover.images.map(function (item, i) {
+        return index === i ? url : item
+      })
+    },
     // radio类型改变事件
     changeType () {
     //   alert(this.formData.cover.type) // 显示当前radio-type选项
@@ -122,11 +133,13 @@ export default {
       })
     },
     getArticleById (id) {
+      this.loading = true
       this.$axios({
         url: `/articles/${id}`
       }).then(results => {
         // 通过debugger查看返回的数据格式来获取值！！！！！！！！！！！！！
         this.formData = results.data.data
+        this.loading = false
       })
     }
   },
