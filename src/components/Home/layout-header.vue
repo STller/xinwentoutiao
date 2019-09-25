@@ -1,10 +1,10 @@
 <template>
     <el-row type="flex" align="middle" justify="space-between">
-        <el-col :span="20">
+        <el-col :span="18">
             <i class="el-icon-s-unfold"></i>
             <span>江苏传智播客教育科技股份有限公司</span>
         </el-col>
-        <el-col :span="4">
+        <el-col :span="6">
             <!-- 用户头像 -->
             <img style="vertical-align:middle;width:50px;border-radius:50%" :src="userInfo.photo" alt="">
             <!-- 下拉菜单组件 -->
