@@ -6,7 +6,7 @@
         </el-col>
         <el-col :span="6">
             <!-- 用户头像 -->
-            <img style="vertical-align:middle;width:50px;border-radius:50%" :src="userInfo.photo" alt="">
+            <img style="vertical-align:middle;width:50px;height:50px;border-radius:50%" :src="userInfo.photo" alt="">
             <!-- 下拉菜单组件 -->
             <!-- 注册command事件 -->
             <el-dropdown @command="commonClick" trigger="click">
